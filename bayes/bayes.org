@@ -1,2 +1,98 @@
 #+TITLE: Bayesian statistics and data analysis
 
+* Notes
+
+* Frequentist vs. Bayesian thinking (conceptual stuff)
+
+Frequentist and bayesian perspectives on probability are almost completely
+opposite.
+  
+From a frequentist perspective, probabilities are long-run replications of a
+fixed random process.  The goal is to find some procedure to *estimate* some
+unknown-but-fixed parameter.
+
+From a Bayesian perspective, probabilities represent *uncertain knowledge* about
+some un-observed thing.  The goal is to *update your beliefs* based on
+evidence.
+
+* The generative model
+
+Bayesian analysis starts with a "generative model", a quantitative model that
+links the *parameters* that you don't know, with the *observations* that you
+do.
+
+* moves and maneuvers
+** Prior and posterior
+
+Want to go from p(data | parameters) (generative model) to p(parameters | data).
+How can we do that??  Basic idea is to use an axiom of probability theory:
+
+p(X,Y) = p(X | Y)p(Y)
+
+This means: ...
+
+We just as well write this as p(X,Y) = p(Y | X)p(X), which means we have this
+equality:
+
+p(Y | X) p(X) = p(X | Y) p(Y)
+
+If we say that X is our data, and Y is our parameters, then we can get the
+*posterior probability* as
+
+p(Y | X) = p(X | Y) p(Y) / p(X)
+  
+** Marginalization
+
+The other important thing we migth want to do with probabilities is to make some
+kind of inference taking into account our full uncertainty about unobserved
+variables.  For instance, 
+
+* Inference
+
+How do you actually DO inference?  For some models, you can write down the
+relationship between the prior, data, and posterior directly.  But that is
+rarely the case and it takes some heavy math lifting even in the few cases that
+it can work.
+
+YOu might say, how can this be?  You just multiply the posterior probability
+times the prior probability and call it good.  Two problems: 
+
+1. You have to do this for every possible value of the parameters
+2. You have to make sure that the posterior probabilities add up to 1 (because
+   that's what makes a probability distribution a probability distribution).
+
+Together these make computing the posterior REALLY HARD, unless you have some
+math trick which allows you to easily calculate the posterior
+
+** Sampling techniques
+
+Instead, most techniques don't work with the posterior distribution DIRECTLY.
+
+* Model comparison
+
+Issue: inferences are always conditional on the generative model itself.
+
+Solution: model comparison?  We can put a prior probability on different models
+right?  And compare how well they match the data?
+
+Yes and no.  There are two issues, one *practical* and one *conceptual*
+
+** Practical: marginalizing the parameters
+
+If you want to compute how well a model explains data, you have to be very
+careful.  The basic idea is exactly the same as doing inference about
+parameters: you compute the likelihood of the data given the model.  But how do
+we compute the likelihood of the data given the model?  Which parameter values
+should we use?  
+
+The answer is that if you want p(model | data), you need to compute p(data |
+model), not p(data | model, parametrs).  And computing p(data | model) requires
+averaging over all the
+
+*** (why marginalize?)
+
+A spiritual question: why not use the parameter values that best fit the data.
+
+Problem with this is that a very complex, clever model will probably have some
+parameter settings which explain the observed data very, very well.  But those
+parameters may not *generalize well* to other datasets.
