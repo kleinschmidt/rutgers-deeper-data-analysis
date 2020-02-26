@@ -1,6 +1,51 @@
 #+TITLE: Bayesian statistics and data analysis
 
+
+TODO: analysis from paper with safa
+
 * Notes
+
+** Topics to cover
+
+*** Conceptual difference between frequentist and bayesian inference
+
+(((I think this is going to take the most time...)
+
+long-run behavior vs. parameter inference, bayes rule.  
+
+p value, (why not) confidence intervals
+
+bayes rule/inference: in order to make the interpretation that you want you need
+to specify prior in order to make it work.
+
+example: t-test
+
+*** Generative modeling
+
+formulating a data analysis question in terms of a generative
+model...generative models can be descriptive or causal or anywhere in between.
+
+the goal of the generative model is for you to be able to calculate the
+likelihood of some observed data, given a particular value of your parameters
+
+example: ab-yesno analysis?
+
+*** working with samples in place of distributions
+
+how do you actually DO this??  analytic vs. sampling (could use the stuff from
+the kavli summer school maybe, and/or from ideal adapter slides?)  can at least
+do the t test example, and show how it includes teh variance too?
+
+importance sampling (re-weighting your hypotheses in the face of new evidence)
+
+MCMC: if you have one sample, can you generate another one?
+
+*** model comparison?
+
+optional I guess: it's a tricky thing to communicate clearly...but probably
+important to understand...
+
+
 
 * Frequentist vs. Bayesian thinking (conceptual stuff)
 
@@ -15,13 +60,20 @@ From a Bayesian perspective, probabilities represent *uncertain knowledge* about
 some un-observed thing.  The goal is to *update your beliefs* based on
 evidence.
 
+** 
+
 * The generative model
 
 Bayesian analysis starts with a "generative model", a quantitative model that
 links the *parameters* that you don't know, with the *observations* that you
 do.
 
+** ACTIVITY
+think of a data analysis problem you've had, and think about how you'd frame it
+as a generative model...
+
 * moves and maneuvers
+
 ** Prior and posterior
 
 Want to go from p(data | parameters) (generative model) to p(parameters | data).
@@ -45,7 +97,7 @@ p(Y | X) = p(X | Y) p(Y) / p(X)
 
 The other important thing we migth want to do with probabilities is to make some
 kind of inference taking into account our full uncertainty about unobserved
-variables.  For instance, 
+variables.  For instance...
 
 * Inference
 
@@ -87,7 +139,23 @@ should we use?
 
 The answer is that if you want p(model | data), you need to compute p(data |
 model), not p(data | model, parametrs).  And computing p(data | model) requires
-averaging over all the
+averaging over all the possible settings of the parameters, *weighted by their
+prior probability*:
+
+p(data | model) = ∫p(data | model, parameters) p(parameters | model) d
+parameters
+
+Because this depends on the *prior probability* of the parameters, model
+comparison is HIGHLY sensitive to the choice of prior.  In a way that's not true
+for parameter estimation, where the posterior is dominted by the data except
+when there isn't much data.
+
+It's also computationally really hard: the part of the model's parameter space
+that provides reasonably good fit to the data is likely very small, so all the
+usual sampling tricks are likely to completely miss those parameters giving you
+a massively distorted picture of how good the model is overall.  And if you can
+use sampling then you have to come up with some other clever way of exploring
+the parameter space, which is really hard.
 
 *** (why marginalize?)
 
@@ -96,3 +164,26 @@ A spiritual question: why not use the parameter values that best fit the data.
 Problem with this is that a very complex, clever model will probably have some
 parameter settings which explain the observed data very, very well.  But those
 parameters may not *generalize well* to other datasets.
+
+** Conceptual: what is the true model?
+
+Even if you overcome all the technical challenges with 
+   
+The inferences about which model is best is only valid insofar as the set of
+models you are considering contains the true model, or more loosely contains a
+good-enough model.  But there's no way to know that: a good posterior
+probability for a model only tells you that it's better than the alternatives
+you're considering, not 
+
+* Wrapping up
+
+So why bother with all this??  Analysis still rests on a lot of assumptions, so
+it doesn't seem to be buying us anything over 'standard' frequentist analyses.
+
+Two advantages: you are "allwoed" to make the inferences you are tempted to make
+based on frequentist analyses but cannot.  There are always assumptions!
+
+Assumptions have to be explicitly stated and justified
+
+
+
